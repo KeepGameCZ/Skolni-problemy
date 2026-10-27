@@ -1,38 +1,27 @@
+# Přehled PLC projektu
 
-FB========================================
-Draining   (FB)
+## FB (Function Blocks)
+- **Draining (FB)**
+- Engine_1DO (FB)
+- Filling (FB)
+- Heater (FB)
+- Heating (FB)
+- Mixing (FB)
+- Valve2DO (FB)
 
-Engine_1DO (FB)
+---
 
-Filling  (FB)
+## GVL (Global Variables)
+- Global
 
-Heater   (FB)
+---
 
-Heating  (FB)
+## PRG (Programs)
+- **MAIN**
+- MAIN_BATCH
+- MB_Connector
 
-Mixing   (FB)
+---
 
-Valve2DO (FB)
-
---------------------
-
-
-GLV=======================================
-Global
-
---------------------
-
-
-PRG======================================
-MAIN 
-
-MAIN_BATCH
-
-MB_Connector
-
-
----------------------
-
-STRUCT===================================
-Upravy u:
-xxx
+## STRUCT
+- Úpravy u: xxx
