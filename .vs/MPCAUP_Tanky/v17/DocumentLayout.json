@@ -1,0 +1,215 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterCmd.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterCmd.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\TEngineState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\DUTs\\TEngineState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\GVLs\\Global.TcGVL||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\GVLs\\Global.TcGVL||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\FB_Tank.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\FB_Tank.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Main_Batch.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\Main_Batch.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Heater.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\Heater.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Engine_1DO.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\Engine_1DO.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Valve_2DO.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\Valve_2DO.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\TValveState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\DUTs\\TValveState.TcDUT||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Heating.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\Heating.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\MAIN.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\POUs\\MAIN.TcPOU||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\VISUs\\Visualization.TcVIS||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}",
+      "RelativeMoniker": "D:0:0:{E24257DA-2A8A-49A0-98A5-1F7251912541}|MPCAUP_Tanky\\PLC_Tank\\PLC_Tank.plcproj|solutionrelative:MPCAUP_Tanky\\PLC_Tank\\VISUs\\Visualization.TcVIS||{CFF47BB1-5559-4BDE-A2AF-06B30BC64F6C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TEngineState",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\TEngineState.TcDUT",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\DUTs\\TEngineState.TcDUT",
+              "ToolTip": "TEngineState [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:37:45.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Global",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\GVLs\\Global.TcGVL",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\GVLs\\Global.TcGVL",
+              "ToolTip": "Global [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:37:34.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FB_Tank",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\FB_Tank.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\FB_Tank.TcPOU",
+              "ToolTip": "FB_Tank [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:36:45.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "THeaterState",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterState.TcDUT",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterState.TcDUT",
+              "ToolTip": "THeaterState [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:53.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "THeaterCmd",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterCmd.TcDUT",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\DUTs\\THeaterCmd.TcDUT",
+              "ToolTip": "THeaterCmd [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:50.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Heater",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Heater.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\Heater.TcPOU",
+              "ToolTip": "Heater [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:42.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Engine_1DO",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Engine_1DO.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\Engine_1DO.TcPOU",
+              "ToolTip": "Engine_1DO [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:35.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Valve_2DO",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Valve_2DO.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\Valve_2DO.TcPOU",
+              "ToolTip": "Valve_2DO [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:28.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TValveState",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\DUTs\\TValveState.TcDUT",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\DUTs\\TValveState.TcDUT",
+              "ToolTip": "TValveState [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-27T10:35:15.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Heating",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Heating.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\Heating.TcPOU",
+              "ToolTip": "Heating [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-25T13:26:44.281Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Main_Batch",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\Main_Batch.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\Main_Batch.TcPOU",
+              "ToolTip": "Main_Batch [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-20T08:08:41.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MAIN",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\POUs\\MAIN.TcPOU",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\POUs\\MAIN.TcPOU",
+              "ToolTip": "MAIN [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-20T08:08:37.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Visualization",
+              "DocumentMoniker": "C:\\Users\\Petr Dvo\u0159\u00E1\u010Dek\\Documents\\\u0160kola\\MPC\\MPC-AUP\\Projekt_BeckHoff\\maup.Beckhoff.empty\\MPCAUP_Tanky\\PLC_Tank\\VISUs\\Visualization.TcVIS",
+              "RelativeDocumentMoniker": "MPCAUP_Tanky\\PLC_Tank\\VISUs\\Visualization.TcVIS",
+              "ToolTip": "Visualization [MPCAUP_Tanky.PLC_Tank]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-20T08:08:00.694Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
