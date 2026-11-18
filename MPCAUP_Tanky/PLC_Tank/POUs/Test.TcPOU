@@ -3,19 +3,123 @@
   <POU Name="Test" Id="{b48fe353-a43c-460a-bd31-5cbc20fa1301}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM Test
 VAR
-	State : INT := 0;
+	State             : INT := 0;       // 0=Idle, 10=Init/Aut, 20..25=Filling, 30..35=Mix+Heat, 40..45=Draining, 50=NextBatch
+	bStartBatch       : BOOL := FALSE;  // Prikaz pro spusteni davkove vyroby
+	bStopBatch        : BOOL := FALSE;  // Prikaz pro okamzite zastaveni vyroby
+	bRunning          : BOOL := FALSE;  // Signalizace, ze automat prave bezi
+	nTargetBatches    : INT := 1;       // Pozadovany pocet davek
+	nCompletedBatches : INT := 0;       // Pocet jiz vyrobenych davek
+	bInitDone         : BOOL := FALSE;  // Jednorazova inicializace vychozich parametru receptury
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
-	1:  Global.Tank1.Filling.ParamFillLevel := 1.8;
-		Global.Tank1.Filling.Cmd.ManCtrl := TRUE;
-		Global.Tank1.Filling.Cmd.StartMan:= TRUE;
-		IF Global.Tank1.Filling.State.Done = TRUE THEN
-			State := 2;
-		END_IF
-	2: //...
-END_CASE
+      <ST><![CDATA[// Jednorazova inicializace vychozich parametru receptury po startu PLC (pokud jsou 0)
+IF NOT bInitDone THEN
+	IF Global.Tank1.Filling.ParamFillLevel <= 0.0 THEN
+		Global.Tank1.Filling.ParamFillLevel := 1.0;
+	END_IF;
+	IF Global.Tank1.Draining.ParamDrainLevel <= 0.0 THEN
+		Global.Tank1.Draining.ParamDrainLevel := 0.2;
+	END_IF;
+	IF Global.Tank1.Mixing.ParamTimeSec <= 0 THEN
+		Global.Tank1.Mixing.ParamTimeSec := 10;
+	END_IF;
+	IF Global.Tank1.Heating.ParamReqTemp <= 0.0 THEN
+		Global.Tank1.Heating.ParamReqTemp := 40.0;
+	END_IF;
+	bInitDone := TRUE;
+END_IF;
+
+// Okamzite zastaveni automatu pri prikazu Stop nebo pri chybe GlobalError
+IF bStopBatch OR (bRunning AND Global.Tank1.GlobalError) THEN
+	Global.Tank1.Filling.Cmd.StopAut  := TRUE;
+	Global.Tank1.Draining.Cmd.StopAut := TRUE;
+	Global.Tank1.Mixing.Cmd.StopAut   := TRUE;
+	Global.Tank1.Heating.Cmd.StopAut  := TRUE;
+	bRunning   := FALSE;
+	State      := 0;
+	bStopBatch := FALSE;
+END_IF;
+
+CASE State OF
+	0: // Idle - cekani na prikaz Start Batch
+		bRunning := FALSE;
+		IF bStartBatch THEN
+			IF nTargetBatches < 1 THEN
+				nTargetBatches := 1;
+			END_IF;
+			nCompletedBatches := 0;
+			bRunning := TRUE;
+			State    := 10;
+		END_IF;
+
+	10: // Prepne vsechny akcni cleny i faze do AUT a vymaze stare priznaky Done
+		Global.Tank1.ValveFilling.Cmd.AutCtrl  := TRUE;
+		Global.Tank1.ValveDraining.Cmd.AutCtrl := TRUE;
+		Global.Tank1.Mixer.Cmd.AutCtrl         := TRUE;
+		Global.Tank1.Heater.Cmd.AutCtrl        := TRUE;
+
+		Global.Tank1.Filling.Cmd.AutCtrl   := TRUE;
+		Global.Tank1.Draining.Cmd.AutCtrl  := TRUE;
+		Global.Tank1.Mixing.Cmd.AutCtrl    := TRUE;
+		Global.Tank1.Heating.Cmd.AutCtrl   := TRUE;
+
+		Global.Tank1.Filling.Cmd.ResetDone  := TRUE;
+		Global.Tank1.Draining.Cmd.ResetDone := TRUE;
+		Global.Tank1.Mixing.Cmd.ResetDone   := TRUE;
+		Global.Tank1.Heating.Cmd.ResetDone  := TRUE;
+
+		State := 20;
+
+	20: // Spusteni faze napousteni (Filling)
+		IF Global.Tank1.Filling.State.AutCtrl THEN
+			Global.Tank1.Filling.Cmd.StartAut := TRUE;
+			State := 25;
+		END_IF;
+
+	25: // Cekani na dokonceni napousteni
+		IF Global.Tank1.Filling.State.Done THEN
+			Global.Tank1.Filling.Cmd.ResetDone := TRUE;
+			State := 30;
+		END_IF;
+
+	30: // Spusteni soubeznych fazi michani a ohrevu (Mixing + Heating)
+		IF Global.Tank1.Mixing.State.AutCtrl AND Global.Tank1.Heating.State.AutCtrl THEN
+			Global.Tank1.Mixing.Cmd.StartAut  := TRUE;
+			Global.Tank1.Heating.Cmd.StartAut := TRUE;
+			State := 35;
+		END_IF;
+
+	35: // Cekani na dokonceni michani I ohrevu
+		IF Global.Tank1.Mixing.State.Done AND Global.Tank1.Heating.State.Done THEN
+			Global.Tank1.Mixing.Cmd.ResetDone  := TRUE;
+			Global.Tank1.Heating.Cmd.ResetDone := TRUE;
+			State := 40;
+		END_IF;
+
+	40: // Spusteni faze vypousteni (Draining)
+		IF Global.Tank1.Draining.State.AutCtrl THEN
+			Global.Tank1.Draining.Cmd.StartAut := TRUE;
+			State := 45;
+		END_IF;
+
+	45: // Cekani na dokonceni vypousteni
+		IF Global.Tank1.Draining.State.Done THEN
+			Global.Tank1.Draining.Cmd.ResetDone := TRUE;
+			State := 50;
+		END_IF;
+
+	50: // Vyhodnoceni poctu vyrobenych davek
+		nCompletedBatches := nCompletedBatches + 1;
+		IF nCompletedBatches < nTargetBatches THEN
+			State := 10; // Dalsi davka
+		ELSE
+			bRunning := FALSE;
+			State    := 0;  // Hotovo
+		END_IF;
+END_CASE;
+
+bStartBatch := FALSE;
 ]]></ST>
     </Implementation>
     <LineIds Name="Test">

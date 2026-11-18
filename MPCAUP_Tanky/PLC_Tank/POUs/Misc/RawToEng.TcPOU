@@ -17,12 +17,16 @@ END_VAR
     <Implementation>
       <ST><![CDATA[//Prepocet z wRawValue (z procesu po ModbusTCP) na fScaledValue (do PLC) podle parametru v AnalogConversion.
 
-//Filtrace hodnoty, bylo by vhodne odfiltrovat take kmitani z minimalniho rozsahu na maximalni hodnotu 27648
-IF wRawValue = 27648 THEN 
-	wRawValue := 0; //Ale lepe nez takto...
-END_IF
+//Filtrace hodnoty: odfiltrovani skokoveho kmitani z minimalniho rozsahu na maximalni hodnotu >= 27648 (podteceni sumu u nuly v simulatoru)
+IF wRawValue >= AnalogConversion.TransducerHiLevel THEN 
+	IF fScaledValue < ((AnalogConversion.ScaledValHiLevel + AnalogConversion.ScaledValLoLevel) / 2.0) THEN
+		wRawValue := AnalogConversion.TransducerLoLevel;
+	ELSE
+		wRawValue := AnalogConversion.TransducerHiLevel;
+	END_IF;
+END_IF;
 
-fScaledValue:= (AnalogConversion.ScaledValHiLevel-AnalogConversion.ScaledValLoLevel) * (wRawValue-AnalogConversion.TransducerLoLevel)/(AnalogConversion.TransducerHiLevel-AnalogConversion.TransducerLoLevel) + AnalogConversion.ScaledValLoLevel;
+fScaledValue := (AnalogConversion.ScaledValHiLevel - AnalogConversion.ScaledValLoLevel) * WORD_TO_REAL(wRawValue - AnalogConversion.TransducerLoLevel) / UINT_TO_REAL(AnalogConversion.TransducerHiLevel - AnalogConversion.TransducerLoLevel) + AnalogConversion.ScaledValLoLevel;
 oEnabled := iEnabled;]]></ST>
     </Implementation>
     <LineIds Name="RawToEng">

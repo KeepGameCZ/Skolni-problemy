@@ -16,9 +16,26 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[{region "Aut/Man"}
+      <ST><![CDATA[// Synchronizace aktualni hladiny vody (v FB_Tank je RawToEng_1 napojen do Filling.WaterLevel)
+DrainingPhase.WaterLevel := Global.Tank1.Filling.WaterLevel;
+
+{region "Aut/Man"}
     // switching state of engine - automatic or manual control (default state is manual)
-  
+    IF DrainingPhase.Cmd.ManCtrl THEN
+        DrainingPhase.State.ManCtrl := TRUE;
+        DrainingPhase.State.AutCtrl := FALSE;
+    ELSIF DrainingPhase.Cmd.AutCtrl THEN
+        DrainingPhase.State.ManCtrl := FALSE;
+        DrainingPhase.State.AutCtrl := TRUE;
+    END_IF;
+
+    IF (NOT DrainingPhase.State.ManCtrl) AND (NOT DrainingPhase.State.AutCtrl) THEN
+        DrainingPhase.State.ManCtrl := TRUE;
+        DrainingPhase.State.AutCtrl := FALSE;
+    END_IF;
+
+    DrainingPhase.Cmd.ManCtrl := FALSE;
+    DrainingPhase.Cmd.AutCtrl := FALSE;
 {endregion}
 
 {region "ManCtrl"}
@@ -29,23 +46,99 @@ END_VAR
     // Pause - close draining valve
     // Resume - open draining valve
     // real states of phase are writed into states in phase structure
-  
+    IF DrainingPhase.State.ManCtrl THEN
+        IF DrainingPhase.Cmd.StartMan THEN
+            DrainingPhase.State.Done := FALSE;
+            IF DrainingPhase.State.Idle THEN
+                DrainingPhase.State.Idle    := FALSE;
+                DrainingPhase.State.Paused  := FALSE;
+                DrainingPhase.State.Running := TRUE;
+            END_IF;
+        END_IF;
+
+        IF DrainingPhase.Cmd.PauseMan THEN
+            DrainingPhase.State.Done := FALSE;
+            IF DrainingPhase.State.Running THEN
+                DrainingPhase.State.Running := FALSE;
+                DrainingPhase.State.Idle    := FALSE;
+                DrainingPhase.State.Paused  := TRUE;
+            END_IF;
+        END_IF;
+
+        IF DrainingPhase.Cmd.ResumeMan THEN
+            DrainingPhase.State.Done := FALSE;
+            IF DrainingPhase.State.Paused THEN
+                DrainingPhase.State.Paused  := FALSE;
+                DrainingPhase.State.Idle    := FALSE;
+                DrainingPhase.State.Running := TRUE;
+            END_IF;
+        END_IF;
+
+        IF DrainingPhase.Cmd.StopMan THEN
+            DrainingPhase.State.Done    := FALSE;
+            DrainingPhase.State.Running := FALSE;
+            DrainingPhase.State.Paused  := FALSE;
+            DrainingPhase.State.Idle    := TRUE;
+        END_IF;
+    END_IF;
+
+    DrainingPhase.Cmd.StartMan  := FALSE;
+    DrainingPhase.Cmd.StopMan   := FALSE;
+    DrainingPhase.Cmd.PauseMan  := FALSE;
+    DrainingPhase.Cmd.ResumeMan := FALSE;
 {endregion}
 
 {region "AutCtrl"}
     //if request to run in automatic mode -> set auto request to open of filling valve to 1 and close to 0, if not open 0 close 1
     // commands should be sets to false after their processing
-   
+    IF DrainingPhase.State.AutCtrl THEN
+        IF DrainingPhase.Cmd.StartAut THEN
+            DrainingPhase.State.Done := FALSE;
+            IF DrainingPhase.State.Idle THEN
+                DrainingPhase.State.Idle    := FALSE;
+                DrainingPhase.State.Paused  := FALSE;
+                DrainingPhase.State.Running := TRUE;
+            END_IF;
+        END_IF;
+
+        IF DrainingPhase.Cmd.StopAut THEN
+            DrainingPhase.State.Done    := FALSE;
+            DrainingPhase.State.Running := FALSE;
+            DrainingPhase.State.Paused  := FALSE;
+            DrainingPhase.State.Idle    := TRUE;
+        END_IF;
+    END_IF;
+
+    DrainingPhase.Cmd.StartAut := FALSE;
+    DrainingPhase.Cmd.StopAut  := FALSE;
 {endregion}
 {region "Done"}
     //every phase should have finish condition - draining phase - if water level is below requested level
     //after that done state should be setted to 1
-   
+    IF DrainingPhase.State.Running THEN
+        IF DrainingPhase.WaterLevel <= DrainingPhase.ParamDrainLevel THEN
+            DrainingPhase.State.Running := FALSE;
+            DrainingPhase.State.Paused  := FALSE;
+            DrainingPhase.State.Idle    := TRUE;
+            DrainingPhase.State.Done    := TRUE;
+        END_IF;
+    END_IF;
+
+    IF DrainingPhase.Cmd.ResetDone THEN
+        DrainingPhase.State.Done    := FALSE;
+        DrainingPhase.Cmd.ResetDone := FALSE;
+    END_IF;
 {endregion}
 
 {region "States"} 
     //Command valve in cases of states
-   
+    IF DrainingPhase.State.Running THEN
+        DrainingValve.Cmd.Req2OpenAut  := TRUE;
+        DrainingValve.Cmd.Req2CloseAut := FALSE;
+    ELSE
+        DrainingValve.Cmd.Req2OpenAut  := FALSE;
+        DrainingValve.Cmd.Req2CloseAut := TRUE;
+    END_IF;
 {endregion}
 
 // delault state of phase - if not any state sets state to idle

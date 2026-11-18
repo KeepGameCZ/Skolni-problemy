@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.62">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.28">
 	<Project ProjectGUID="{6AF5D0C0-9E5E-46F6-B933-497A746FB724}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Settings MaxCpus="8">
+				<Cpu CpuId="6"/>
 				<Cpu CpuId="7"/>
 			</Settings>
 			<Licenses>
 				<Target>
-					<ManualSelect>{68A05D95-13CD-491E-A0DD-DC396DC90A19}</ManualSelect>
 					<ManualSelect>{DEA72F0A-9EA0-48F4-ABB5-766516202B8E}</ManualSelect>
-					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 					<ManualSelect>{D8A1885F-B127-4B81-A1D3-D1D70C8D79A7}</ManualSelect>
+					<ManualSelect>{68A05D95-13CD-491E-A0DD-DC396DC90A19}</ManualSelect>
+					<ManualSelect>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -28,7 +29,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{E24257DA-2A8A-49A0-98A5-1F7251912541}" Name="PLC_Tank" PrjFilePath="PLC_Tank\PLC_Tank.plcproj" TmcFilePath="PLC_Tank\PLC_Tank.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC_Tank\PLC_Tank.tmc" TmcHash="{1E955098-1AEE-0894-35E3-55B6F25AC9CC}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{96291550-7D6B-288A-EC38-9F7051E91CFC}" TmcPath="PLC_Tank\PLC_Tank.tmc">
 					<Name>PLC_Tank Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

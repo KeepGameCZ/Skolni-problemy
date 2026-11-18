@@ -1,16 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.21">
   <POU Name="MAIN" Id="{1ebefdd1-3e03-4aac-b0d7-9cb2e38b8084}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// --- PŘEPÍNAČ PŘÍMÉHO RUČNÍHO TESTOVÁNÍ SIMULÁTORU ---
+	// FALSE = výstupy řídí FB_Tank_1 v Main_Batch (standardní provoz)
+	// TRUE  = výstupy řídí přímo proměnné bTest_* níže (pouze když je zakomentovaný Main_Batch)
+	bTest_ManualOverride  : BOOL := FALSE;
+	test_prom : BOOL;
+	// --- RUČNÍ TESTOVACÍ OVLÁDÁNÍ AKČNÍCH ČLENŮ (Zápis do simulátoru) ---
+	bTest_FillValve_Open  : BOOL := FALSE; // TRUE = otevírá napouštěcí ventil, FALSE = aktivně zavírá
+	bTest_DrainValve_Open : BOOL := FALSE; // TRUE = otevírá vypouštěcí ventil, FALSE = aktivně zavírá
+	bTest_Mixer           : BOOL := FALSE; // TRUE = zapne míchadlo
+	bTest_Heating         : BOOL := FALSE; // TRUE = povolí topení a pošle wTest_HeatingPower
+	wTest_HeatingPower    : WORD := 15000; // Požadovaný výkon topení (0..27648 odpovídá 0..100 %)
 
+	// --- ČTENÍ STAVŮ ZE SIMULÁTORU (Pro přehled v Online režimu) ---
+	// Napouštěcí ventil (koncové dorazy a porucha)
+	bStat_FillValve_IsOpen   : BOOL;
+	bStat_FillValve_IsClosed : BOOL;
+	bStat_FillValve_Error    : BOOL;
+
+	// Vypouštěcí ventil (koncové dorazy a porucha)
+	bStat_DrainValve_IsOpen   : BOOL;
+	bStat_DrainValve_IsClosed : BOOL;
+	bStat_DrainValve_Error    : BOOL;
+
+	// Míchadlo (zpětná vazba chodu a porucha)
+	bStat_Mixer_IsRunning : BOOL;
+	bStat_Mixer_Error     : BOOL;
+
+	// Spojité snímače (surové hodnoty 0..27648 i přepočet na m a °C)
+	wStat_WaterLevel_Raw : WORD;
+	fStat_WaterLevel_m   : REAL; // Přepočtená hladina (0.0 .. 2.0 m)
+	wStat_WaterTemp_Raw  : WORD;
+	fStat_WaterTemp_C    : REAL; // Přepočtená teplota (0.0 .. 100.0 °C)
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Global.secImp := NOT(Global.secImp);]]></ST>
+      <ST><![CDATA[// Generování hodinového impulzu s periodou 1 s (MAIN běží v PlcTask500ms s periodou 500 ms)
+Global.secImp := NOT(Global.secImp);
+
+// ============================================================================
+// 1. ZÁPIS TESTOVACÍCH POVELŮ DO SIMULÁTORU (pouze pokud je bTest_ManualOverride = TRUE)
+//    Při standardním běhu přes FB_Tank_1 v Main_Batch musí být bTest_ManualOverride = FALSE!
+// ============================================================================
+IF bTest_ManualOverride THEN
+	// Napouštěcí ventil (v maup.NET drží bez povelu poslední stav -> při FALSE aktivně zavíráme)
+	IF bTest_FillValve_Open THEN
+		Global.doValveFillOpen  := TRUE;
+		Global.doValveFillClose := FALSE;
+	ELSE
+		Global.doValveFillOpen  := FALSE;
+		Global.doValveFillClose := TRUE;
+	END_IF;
+
+	// Vypouštěcí ventil (při FALSE aktivně zavíráme)
+	IF bTest_DrainValve_Open THEN
+		Global.doValveDrainOpen  := TRUE;
+		Global.doValveDrainClose := FALSE;
+	ELSE
+		Global.doValveDrainOpen  := FALSE;
+		Global.doValveDrainClose := TRUE;
+	END_IF;
+
+	// Míchadlo
+	Global.doMixerStart := bTest_Mixer;
+
+	// Ohřev (odblokování topení + výkon do holding registru)
+	Global.doHeatingEnable := bTest_Heating;
+	IF bTest_Heating THEN
+		Global.aoReqPowerOfHeating := wTest_HeatingPower;
+	ELSE
+		Global.aoReqPowerOfHeating := 0;
+	END_IF;
+ELSE
+	test_prom :=false;
+END_IF;
+
+// ============================================================================
+// 2. ČTENÍ STAVŮ A SENZORŮ ZE SIMULÁTORU (z Global.di* a Global.ai*)
+//    (Běží neustále – pouze čte hodnoty pro rychlou diagnostiku v Online režimu)
+// ============================================================================
+
+// Napouštěcí ventil
+bStat_FillValve_IsOpen   := Global.diValveFillOpen;
+bStat_FillValve_IsClosed := Global.diValveFillClose;
+bStat_FillValve_Error    := Global.diValveFillError;
+
+// Vypouštěcí ventil
+bStat_DrainValve_IsOpen   := Global.diValveDrainOpen;
+bStat_DrainValve_IsClosed := Global.diValveDrainClose;
+bStat_DrainValve_Error    := Global.diValveDrainError;
+
+// Míchadlo
+bStat_Mixer_IsRunning := Global.diMixerRun;
+bStat_Mixer_Error     := Global.diMixerError;
+
+// Analogové hodnoty (surové 0..27648 + orientační přepočet na fyzikální jednotky)
+wStat_WaterLevel_Raw := Global.aiWaterLevel;
+fStat_WaterLevel_m   := WORD_TO_REAL(Global.aiWaterLevel) * 2.0 / 27648.0;
+
+wStat_WaterTemp_Raw  := Global.aiWaterTemp;
+fStat_WaterTemp_C    := WORD_TO_REAL(Global.aiWaterTemp) * 100.0 / 27648.0;
+
+// Volani hlavniho davkoveho automatu (kap. 10.4)
+Test();]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="337" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

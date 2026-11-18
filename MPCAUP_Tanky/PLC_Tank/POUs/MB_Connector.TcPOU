@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.21">
   <POU Name="MB_Connector" Id="{53df711c-90f0-440b-86cd-6bc0d8c9b69a}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MB_Connector
 VAR
 	
-	mb_ipaddr   : STRING(15) := '127.0.0.1';
-	mb_port		: UINT := 504;
-	mb_unitid	: BYTE := 1;
+    mb_ipaddr   : STRING(15) := '127.0.0.1';
+    mb_port     : UINT := 504;
+    mb_unitid   : BYTE := 1;
 	
 	fbReadRegs		: FB_MBReadInputRegs;
 	mb_regs    		: ARRAY [0..4] OF WORD;
@@ -137,28 +137,5 @@ mbw_coils[0].5 := Global.doHeatingEnable;
 mbw_regs[0] := Global.aoReqPowerOfHeating;
 ]]></ST>
     </Implementation>
-    <LineIds Name="MB_Connector">
-      <LineId Id="26" Count="7" />
-      <LineId Id="35" Count="4" />
-      <LineId Id="41" Count="0" />
-      <LineId Id="87" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="84" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="42" Count="8" />
-      <LineId Id="52" Count="4" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="139" Count="0" />
-      <LineId Id="222" Count="9" />
-      <LineId Id="173" Count="0" />
-      <LineId Id="233" Count="40" />
-      <LineId Id="285" Count="0" />
-      <LineId Id="274" Count="0" />
-      <LineId Id="288" Count="4" />
-      <LineId Id="295" Count="0" />
-      <LineId Id="294" Count="0" />
-      <LineId Id="232" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

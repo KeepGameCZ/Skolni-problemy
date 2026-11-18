@@ -42,25 +42,94 @@ ioHeatStruct.State.HeatingOut := ioHeatStruct.PID.fOut;
 	 
 {region "Manual/Automat"}
 // switching state of engine - automatic or manual control (default state is manual)
+IF ioHeatStruct.Cmd.ManCtrl THEN
+	ioHeatStruct.State.ManCtrl := TRUE;
+	ioHeatStruct.State.AutCtrl := FALSE;
+ELSIF ioHeatStruct.Cmd.AutCtrl THEN
+	ioHeatStruct.State.ManCtrl := FALSE;
+	ioHeatStruct.State.AutCtrl := TRUE;
+END_IF;
 
+IF (NOT ioHeatStruct.State.ManCtrl) AND (NOT ioHeatStruct.State.AutCtrl) THEN
+	ioHeatStruct.State.ManCtrl := TRUE;
+	ioHeatStruct.State.AutCtrl := FALSE;
+END_IF;
+
+ioHeatStruct.Cmd.ManCtrl := FALSE;
+ioHeatStruct.Cmd.AutCtrl := FALSE;
+
+ioHeatStruct.State.MayRun := (ioHeatStruct.State.ManCtrl AND NOT(ioHeatStruct.State.GenErr));
+ioHeatStruct.State.MayAutoRun := (ioHeatStruct.State.AutCtrl AND NOT(ioHeatStruct.State.GenErr));
 {endregion}
 	 
  
 {region "ManCtrl"}
 // processing manual actions - if command is processed, it is set to FALSE even if can't be processed
 // Engine commands are turn off (stop) and turn on (start)
+IF ioHeatStruct.State.ManCtrl AND ioHeatStruct.State.MayRun THEN
+	IF ioHeatStruct.Cmd.TurnOnMan THEN
+		ioHeatStruct.State.EnableOut := TRUE;
+	END_IF;
 
+	IF ioHeatStruct.Cmd.TurnOffMan THEN
+		ioHeatStruct.State.EnableOut := FALSE;
+	END_IF;
+
+	IF ioHeatStruct.State.EnableOut THEN
+		ioHeatStruct.State.HeatingOut := LIMIT(0.0, ioHeatStruct.ParamHeatingPowerManual, 100.0);
+	ELSE
+		ioHeatStruct.State.HeatingOut := 0.0;
+	END_IF;
+END_IF;
+
+ioHeatStruct.Cmd.TurnOnMan := FALSE;
+ioHeatStruct.Cmd.TurnOffMan := FALSE;
 {endregion}
  
 {region "AutCtrl"}
 //if request to run in automatic mode set outputs to right states if MAR
 //AutoRequest shouldn't be reseted to false state
+IF ioHeatStruct.State.AutCtrl AND ioHeatStruct.State.MayAutoRun THEN
+	ioHeatStruct.State.EnableOut := ioHeatStruct.Cmd.Req2RunAutCtrl;
 
+	IF ioHeatStruct.State.EnableOut THEN
+		ioHeatStruct.State.HeatingOut := ioHeatStruct.PID.fOut;
+	ELSE
+		ioHeatStruct.State.HeatingOut := 0.0;
+	END_IF;
+END_IF;
 {endregion}
  
 {region "Error states"}
 // if water temperature is too high, stop heating and generate error
+ioHeatStruct.ThresholdTimer(IN := (iWaterTemp > 95.0), PT := T#2S);
+ioHeatStruct.State.Err := ioHeatStruct.ThresholdTimer.Q OR (iWaterTemp >= 98.0);
+ioHeatStruct.State.GenErr := ioHeatStruct.State.Err;
 
+IF ioHeatStruct.State.GenErr THEN
+	ioHeatStruct.State.EnableOut := FALSE;
+	ioHeatStruct.State.HeatingOut := 0.0;
+END_IF;
+
+IF NOT ioHeatStruct.State.EnableOut THEN
+	ioHeatStruct.State.HeatingOut := 0.0;
+END_IF;
+
+ioHeatStruct.State.HeatingPower := ioHeatStruct.State.HeatingOut;
+
+IF NOT ioHeatStruct.State.GenErr THEN
+	IF ioHeatStruct.State.EnableOut THEN
+		ioHeatStruct.State.StateInt := Global.Running;
+	ELSE
+		ioHeatStruct.State.StateInt := Global.Stop;
+	END_IF;
+ELSE
+	IF ioHeatStruct.State.EnableOut THEN
+		ioHeatStruct.State.StateInt := Global.RunningAndError;
+	ELSE
+		ioHeatStruct.State.StateInt := Global.Err;
+	END_IF;
+END_IF;
 {endregion}
 	 
  

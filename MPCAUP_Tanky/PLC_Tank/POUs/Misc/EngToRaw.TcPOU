@@ -16,7 +16,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Prepocet z fScaledValue (z PLC) na wRawValue (do procesu po ModbusTCP) podle parametru v AnalogConversion.
-wRawValue := REAL_TO_WORD((AnalogConversion.TransducerHiLevel - AnalogConversion.TransducerLoLevel) * (fScaledValue - AnalogConversion.ScaledValLoLevel) / (AnalogConversion.ScaledValHiLevel - AnalogConversion.ScaledValLoLevel) + AnalogConversion.TransducerLoLevel);
+IF fScaledValue <= AnalogConversion.ScaledValLoLevel THEN
+	wRawValue := UINT_TO_WORD(AnalogConversion.TransducerLoLevel);
+ELSIF fScaledValue >= AnalogConversion.ScaledValHiLevel THEN
+	wRawValue := UINT_TO_WORD(AnalogConversion.TransducerHiLevel);
+ELSE
+	wRawValue := REAL_TO_WORD(UINT_TO_REAL(AnalogConversion.TransducerHiLevel - AnalogConversion.TransducerLoLevel) * (fScaledValue - AnalogConversion.ScaledValLoLevel) / (AnalogConversion.ScaledValHiLevel - AnalogConversion.ScaledValLoLevel) + UINT_TO_REAL(AnalogConversion.TransducerLoLevel));
+END_IF;
 oEnabled := iEnabled;]]></ST>
     </Implementation>
     <LineIds Name="EngToRaw">

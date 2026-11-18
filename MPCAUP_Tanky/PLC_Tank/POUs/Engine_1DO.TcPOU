@@ -23,19 +23,41 @@ END_VAR
     <Implementation>
       <ST><![CDATA[{region "RunState"}
     // set real state of engine run into engine structure
-  
+    ioEngStruct.State.Run := iRunning;
 {endregion}
 
 {region "Running time"} 
     // counting running time of engine - (motoseconds in real situation it should be moto hours)
     // detection rising edge of input secimp - should be conected 1Hz internal clock from PLC
-	
+	ioEngStruct.RisingEdgeTrigger(CLK := iSecImp, Q => secImpEdge);
+	IF ioEngStruct.State.Run AND secImpEdge THEN
+		ioEngStruct.State.RT := ioEngStruct.State.RT + 1;
+	END_IF;
+
+	IF ioEngStruct.Cmd.SetRT >= 0 THEN
+		ioEngStruct.State.RT := ioEngStruct.Cmd.SetRT;
+		ioEngStruct.Cmd.SetRT := -1;
+	END_IF;
 {endregion}
 	 
  
 {region "Manual/Automat"}
 	// switching state of engine - automatic or manual control (default state is manual)
-	
+	IF ioEngStruct.Cmd.ManCtrl THEN
+		ioEngStruct.State.ManCtrl := TRUE;
+		ioEngStruct.State.AutCtrl := FALSE;
+	ELSIF ioEngStruct.Cmd.AutCtrl THEN
+		ioEngStruct.State.ManCtrl := FALSE;
+		ioEngStruct.State.AutCtrl := TRUE;
+	END_IF;
+
+	IF (NOT ioEngStruct.State.ManCtrl) AND (NOT ioEngStruct.State.AutCtrl) THEN
+		ioEngStruct.State.ManCtrl := TRUE;
+		ioEngStruct.State.AutCtrl := FALSE;
+	END_IF;
+
+	ioEngStruct.Cmd.ManCtrl := FALSE;
+	ioEngStruct.Cmd.AutCtrl := FALSE;
 {endregion}
 	 
 {region "MayRun / MayAutoRun"}
@@ -50,13 +72,26 @@ END_VAR
 {region "ManCtrl"}
 	// processing manual actions - if command is processed, it is set to FALSE even if can't be processed
     // Engine commands are turn off (stop) and turn on (start)
-	
+	IF ioEngStruct.State.ManCtrl AND ioEngStruct.State.MayRun THEN
+		IF ioEngStruct.Cmd.TurnOnMan THEN
+			ioEngStruct.State.RunOut := TRUE;
+		END_IF;
+
+		IF ioEngStruct.Cmd.TurnOffMan THEN
+			ioEngStruct.State.RunOut := FALSE;
+		END_IF;
+	END_IF;
+
+	ioEngStruct.Cmd.TurnOnMan := FALSE;
+	ioEngStruct.Cmd.TurnOffMan := FALSE;
 {endregion}
 	 
 {region "AutCtrl"}
 	//if request to run in automatic mode set outputs to right states if MAR
     //AutoRequest shouldn't be reseted to false state
-    
+    IF ioEngStruct.State.AutCtrl AND ioEngStruct.State.MayAutoRun THEN
+		ioEngStruct.State.RunOut := ioEngStruct.Cmd.Req2RunAutCtrl;
+	END_IF;
 {endregion}
 	 
 {region "Error states"}
@@ -64,7 +99,25 @@ END_VAR
 	// error - input from digital input of plc - fyzical state of engine 
 	// calculating start up fail - if output is sets to start engine, it's expected feedback from running signal in defined time, if feedback doesn't show in this time, it should be start up fail error
 	// merge of these two error is general error
-	
+	ioEngStruct.StartupFailTimer(IN := (ioEngStruct.State.RunOut AND (NOT ioEngStruct.State.Run)), PT := ioEngStruct.Time2Start);
+	tempStartupFail := ioEngStruct.StartupFailTimer.Q;
+
+	IF tempStartupFail THEN
+		ioEngStruct.State.StartUpFail := TRUE;
+	END_IF;
+
+	ioEngStruct.State.Err := iError;
+
+	IF ioEngStruct.Cmd.ResetSUF THEN
+		ioEngStruct.State.StartUpFail := FALSE;
+		ioEngStruct.Cmd.ResetSUF := FALSE;
+	END_IF;
+
+	ioEngStruct.State.GenErr := ioEngStruct.State.StartUpFail OR ioEngStruct.State.Err;
+
+	IF ioEngStruct.State.GenErr THEN
+		ioEngStruct.State.RunOut := FALSE;
+	END_IF;
 {endregion}
 	 
 oRun := ioEngStruct.State.RunOut;

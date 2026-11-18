@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.21">
   <POU Name="Valve_2DO" Id="{86469f36-9490-4936-ae7d-f4831ca2b758}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Valve_2DO
 VAR_INPUT
@@ -32,7 +32,21 @@ END_VAR
 	 
 {region "Manual/Automat"}
 	// switching state of engine - automatic or manual control (default state is manual)
-	
+	IF ioValStruct.Cmd.ManCtrl THEN
+		ioValStruct.State.ManCtrl := TRUE;
+		ioValStruct.State.AutCtrl := FALSE;
+	ELSIF ioValStruct.Cmd.AutCtrl THEN
+		ioValStruct.State.ManCtrl := FALSE;
+		ioValStruct.State.AutCtrl := TRUE;
+	END_IF;
+
+	IF (NOT ioValStruct.State.ManCtrl) AND (NOT ioValStruct.State.AutCtrl) THEN
+		ioValStruct.State.ManCtrl := TRUE;
+		ioValStruct.State.AutCtrl := FALSE;
+	END_IF;
+
+	ioValStruct.Cmd.ManCtrl := FALSE;
+	ioValStruct.Cmd.AutCtrl := FALSE;
 {endregion}
 	 
 {region "MayRun / MayAutoRun"}
@@ -57,7 +71,7 @@ END_VAR
         
         IF ioValStruct.Cmd.StopMan THEN
             ioValStruct.State.OpenOut := FALSE;
-            ioValStruct.State.CloseOut := TRUE;
+            ioValStruct.State.CloseOut := FALSE;
         END_IF;
     END_IF;
     
@@ -74,14 +88,10 @@ END_VAR
         IF ioValStruct.Cmd.Req2CloseAut AND (NOT ioValStruct.Cmd.Req2OpenAut) THEN
             ioValStruct.State.OpenOut := FALSE;
             ioValStruct.State.CloseOut := TRUE;
-        END_IF;
-        
-        IF (NOT ioValStruct.Cmd.Req2CloseAut) AND ioValStruct.Cmd.Req2OpenAut THEN
+        ELSIF (NOT ioValStruct.Cmd.Req2CloseAut) AND ioValStruct.Cmd.Req2OpenAut THEN
             ioValStruct.State.CloseOut := FALSE;
             ioValStruct.State.OpenOut := TRUE;
-        END_IF;
-        
-        IF (NOT ioValStruct.Cmd.Req2CloseAut) AND (NOT ioValStruct.Cmd.Req2OpenAut) THEN
+        ELSE
             ioValStruct.State.CloseOut := FALSE;
             ioValStruct.State.OpenOut := FALSE;
         END_IF;
@@ -95,28 +105,26 @@ END_VAR
     // calculating start up fail - if output is sets to open or close, it's expected feedback from limit sensor in defined time, if feedback doesn't show in this time, it should be start up fail error
     // merge of these two error is general error
     // error is both inputs (open and closed) true state
-    ioValStruct.OpenFailTimer(IN := (ioValStruct.State.OpenOut AND (NOT ioValStruct.State.CloseOut)), PT := ioValStruct.Time2Open);
+    ioValStruct.OpenFailTimer(IN := (ioValStruct.State.OpenOut AND (NOT ioValStruct.State.CloseOut) AND (NOT ioValStruct.State.Open)), PT := ioValStruct.Time2Open);
 	tempOpenStartupFail := ioValStruct.OpenFailTimer.Q;
 
-    ioValStruct.CloseFailTimer(IN := ((NOT ioValStruct.State.OpenOut) AND ioValStruct.State.CloseOut), PT := ioValStruct.Time2Open);
+    ioValStruct.CloseFailTimer(IN := ((NOT ioValStruct.State.OpenOut) AND ioValStruct.State.CloseOut AND (NOT ioValStruct.State.Closed)), PT := ioValStruct.Time2Open);
 	tempCloseStartupFail := ioValStruct.CloseFailTimer.Q;
     
    
     IF tempOpenStartupFail OR tempCloseStartupFail THEN
-        ioValStruct.State.StartUpFail := TRUE;
+        ioValStruct.State.StartupFail := TRUE;
     END_IF;
     
-    IF iError THEN
-        ioValStruct.State.Err := TRUE;
-    END_IF;
-    
-    ioValStruct.State.GenErr := ioValStruct.State.StartUpFail OR iError;
+    ioValStruct.State.Err := iError OR (ioValStruct.State.Open AND ioValStruct.State.Closed);
     
     // start up fail can be reseted by operator, command resetSUF, resets SUF and engine should be started again
     IF ioValStruct.Cmd.ResetSUF THEN
-        ioValStruct.State.StartUpFail := FALSE;
+        ioValStruct.State.StartupFail := FALSE;
         ioValStruct.Cmd.ResetSUF := FALSE;
     END_IF;
+
+    ioValStruct.State.GenErr := ioValStruct.State.StartupFail OR ioValStruct.State.Err;
     
     // if error state exists outputs should be in stop state
     IF ioValStruct.State.GenErr THEN
@@ -149,50 +157,5 @@ oClose := ioValStruct.State.CloseOut;
     END_IF;
 {endregion}]]></ST>
     </Implementation>
-    <LineIds Name="Valve_2DO">
-      <LineId Id="303" Count="0" />
-      <LineId Id="307" Count="1" />
-      <LineId Id="446" Count="0" />
-      <LineId Id="305" Count="0" />
-      <LineId Id="304" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="103" Count="0" />
-      <LineId Id="109" Count="0" />
-      <LineId Id="71" Count="0" />
-      <LineId Id="126" Count="1" />
-      <LineId Id="329" Count="0" />
-      <LineId Id="132" Count="0" />
-      <LineId Id="144" Count="0" />
-      <LineId Id="128" Count="0" />
-      <LineId Id="159" Count="1" />
-      <LineId Id="164" Count="0" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="309" Count="18" />
-      <LineId Id="180" Count="0" />
-      <LineId Id="161" Count="0" />
-      <LineId Id="190" Count="1" />
-      <LineId Id="330" Count="18" />
-      <LineId Id="201" Count="0" />
-      <LineId Id="192" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="359" Count="5" />
-      <LineId Id="401" Count="0" />
-      <LineId Id="405" Count="0" />
-      <LineId Id="403" Count="1" />
-      <LineId Id="367" Count="0" />
-      <LineId Id="371" Count="9" />
-      <LineId Id="383" Count="10" />
-      <LineId Id="351" Count="0" />
-      <LineId Id="349" Count="0" />
-      <LineId Id="204" Count="0" />
-      <LineId Id="407" Count="0" />
-      <LineId Id="281" Count="0" />
-      <LineId Id="408" Count="0" />
-      <LineId Id="259" Count="0" />
-      <LineId Id="409" Count="16" />
-      <LineId Id="262" Count="0" />
-      <LineId Id="260" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

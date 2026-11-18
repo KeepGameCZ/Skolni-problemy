@@ -6,8 +6,8 @@ STRUCT
 	Cmd : THeaterCmd;
 	State : THeaterState;
 	
-	ParamHeatingPowerManual : REAL;
-	ParamHeatingSetPointAutomat : REAL;
+	ParamHeatingPowerManual : REAL := 50.0;
+	ParamHeatingSetPointAutomat : REAL := 60.0;
 	
 	PID : FB_CTRL_PID;
 	ThresholdTimer : TON;

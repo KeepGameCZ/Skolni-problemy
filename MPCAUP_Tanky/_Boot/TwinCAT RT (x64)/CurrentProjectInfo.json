@@ -1,0 +1,1 @@
+{"project":{"name":"MPCAUP_Tanky","platform":"TwinCAT RT (x64)","created":"2026-11-18T20:42:26"},"components":[{"name":"TcIo","type":1},{"name":"TcPlc30","type":1},{"name":"TcRTime","type":1},{"name":"TcRtsObjects","type":1}],"references":[],"sub_projects":[{"name":"PLC_Tank","file":"Plc/Port_851.json"}]}
